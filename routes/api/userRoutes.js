@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
+      console.log("Requested ID:", req.params.id);
         const user = await User.findById(req.params.id).populate('thoughts').populate('friends');
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -33,6 +34,8 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
+    console.log('Updating user with ID: ', req.params.id);
+    console.log('Update data:', req.body);
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedUser) {
         return res.status(404).json({ message: 'User not found' });

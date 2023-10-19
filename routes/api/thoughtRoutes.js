@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Thought = require('../../models/Thought');  // Import the Thought model
 
-router.get('/thoughts', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       const thoughts = await Thought.find({}).populate('reactions');
       
@@ -16,7 +16,7 @@ router.get('/thoughts', async (req, res) => {
     }
 });
 
-router.get('/thoughts/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
       const thought = await Thought.findById(req.params.id).populate('reactions');
       
@@ -31,7 +31,8 @@ router.get('/thoughts/:id', async (req, res) => {
     }
   });
   
-router.post('/thoughts', async (req, res) => {
+router.post('/', async (req, res) => {
+    console.log(req.body);
     try {
       const newThought = await Thought.create(req.body);
       res.json(newThought);
@@ -41,10 +42,13 @@ router.post('/thoughts', async (req, res) => {
     }
   });
 
-  router.put('/thoughts/:id', async (req, res) => {
+  router.put('/:id', async (req, res) => {
     try {
-      const updatedThought = await Thought.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      
+        const updatedThought = await Thought.findByIdAndUpdate(
+          req.params.id,
+          { thoughtText: req.body.thoughtText },
+          { new: true }
+        );
       if (!updatedThought) {
         return res.status(404).json({ message: 'Thought not found' });
       }
@@ -56,7 +60,7 @@ router.post('/thoughts', async (req, res) => {
     }
   });
    
-  router.delete('/thoughts/:id', async (req, res) => {
+  router.delete('/:id', async (req, res) => {
     try {
       const deletedThought = await Thought.findByIdAndDelete(req.params.id);
       

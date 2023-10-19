@@ -2,6 +2,9 @@ const router = require('express').Router();
 const User = require('../../models/User');
 
 router.post('/users/:userId/friends/:friendId', async (req, res) => {
+    console.log('POST request received');
+    console.log('UserID:', req.params.userId);
+    console.log('FriendID:', req.params.friendId);
     try {
         const user = await User.findByIdAndUpdate(
           req.params.userId, 
@@ -38,4 +41,5 @@ router.delete('/users/:userId/friends/:friendId', async (req, res) => {
         res.status(500).json({ error: 'An error occurred while removing the friend.' });
       }
   });
-  
+
+  module.exports = router;
