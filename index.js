@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/api/userRoutes');
-const friendRoutes = require('./routes/api/friendRoutes');
 const reactionRoutes = require('./routes/api/reactionRoutes');
 const thoughtRoutes = require('./routes/api/thoughtRoutes');
 require('dotenv').config();
@@ -10,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socialNetwork', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/socialNetwork', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -18,7 +17,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socialNetwork',
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
-app.use('/api/users', friendRoutes);
 app.use('/api/thoughts', thoughtRoutes);
 app.use('/api/thoughts', reactionRoutes);
 
